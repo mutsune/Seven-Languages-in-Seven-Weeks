@@ -9,3 +9,4 @@ puts "===="
 f = File.open("sample.txt", "r")
 puts f.readline
 puts f.readline
+puts f.readline
