@@ -19,11 +19,35 @@ Matrix get := method(x, y,
     self content at(y) at(x)
 )
 
-s := Matrix dim(2, 3)
-s println
+Matrix trans := method(
+    org := self content clone
+    yMax := org size
+    xMax := org at(0) size
+    Matrix dim(yMax, xMax)
+    for(y, 0, yMax - 1,
+        for(x, 0, xMax - 1,
+            self set(y, x, org at(y) at(x))
+        )
+    )
+    self
+)
 
-s set(1, 2, 1)
-s println
+matrix := Matrix dim(2, 3)
+matrix println
 
-s get(1, 2) println
-s get(1, 0) println
+matrix set(1, 1, 1)
+matrix println
+
+matrix get(1, 0) println
+matrix get(1, 1) println
+
+"====" println
+
+org_matrix := matrix content clone
+
+new_matrix := matrix trans
+new_matrix println
+
+matrix := Matrix clone
+matrix content = org_matrix
+matrix println
