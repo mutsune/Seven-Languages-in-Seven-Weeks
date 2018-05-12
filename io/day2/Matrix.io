@@ -32,6 +32,32 @@ Matrix trans := method(
     self
 )
 
+Matrix save := method(name,
+    f := File with(name)
+    f remove
+    f openForUpdating
+    self content foreach(column,
+        f write(column join(" "))
+        f write("\n")
+    )
+    f close
+)
+
+Matrix load := method(name,
+    f := File with(name)
+    f openForReading
+    self content = list()
+    while(line := f readLine,
+        column := list()
+        line split foreach(e,
+            column append(e)
+        )
+        self content append(column)
+    )
+    f close
+    self
+)
+
 matrix := Matrix dim(2, 3)
 matrix println
 
@@ -41,7 +67,7 @@ matrix println
 matrix get(1, 0) println
 matrix get(1, 1) println
 
-"====" println
+"== trans ==" println
 
 org_matrix := matrix content clone
 
@@ -50,4 +76,11 @@ new_matrix println
 
 matrix := Matrix clone
 matrix content = org_matrix
+matrix println
+
+"== save and load ==" println
+
+name := "matrix"
+matrix save(name)
+matrix := matrix load(name)
 matrix println
